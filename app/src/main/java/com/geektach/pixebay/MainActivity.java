@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.progressBar);
         retrofitServices.getApi().getImages(KEY, word, page, perPage).enqueue(new Callback<PixabayModel>() {
             @Override
-            public void onResponse(Call<PixabayModel> call, @NonNull Response<PixabayModel> response) {
+            public void onResponse(@NonNull Call<PixabayModel> call, @NonNull Response<PixabayModel> response) {
                 if (response.isSuccessful()) {
                     progressBar.setVisibility(View.INVISIBLE);
                     assert response.body() != null;
