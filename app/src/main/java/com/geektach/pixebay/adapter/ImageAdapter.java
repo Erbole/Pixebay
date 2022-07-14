@@ -1,8 +1,6 @@
 package com.geektach.pixebay.adapter;
 
-import android.content.res.ObbInfo;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -38,7 +36,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         return list.size();
     }
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder {
+    public static class ImageViewHolder extends RecyclerView.ViewHolder {
         ItemImageBinding binding;
 
         public ImageViewHolder(ItemImageBinding binding) {

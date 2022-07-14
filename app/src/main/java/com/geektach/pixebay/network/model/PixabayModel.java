@@ -3,7 +3,6 @@ package com.geektach.pixebay.network.model;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.annotations.Expose;
 
 public class PixabayModel {
 

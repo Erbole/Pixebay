@@ -1,17 +1,16 @@
 package com.geektach.pixebay;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.transition.Visibility;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.geektach.pixebay.adapter.ImageAdapter;
 import com.geektach.pixebay.databinding.ActivityMainBinding;
@@ -20,8 +19,6 @@ import com.geektach.pixebay.network.model.Hit;
 import com.geektach.pixebay.network.model.PixabayModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,22 +43,24 @@ public class MainActivity extends AppCompatActivity {
     private void initClickers() {
         ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
-        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                String word = binding.etSearh.getText().toString();
-                getImageFromApi(word, 1, 20);
-            }
-        });
-        binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                int count = 1;
-                String word = binding.etSearh.getText().toString();
-                getImageFromApi(word, ++count, 5);
-                binding.swipeRefresh.setRefreshing(false);
-            }
+
+        binding.btnSearch.setOnClickListener(
+                view -> {
+                    if (binding.etSearh.getText().toString().isEmpty()) {
+                        Animation snake = AnimationUtils.loadAnimation(getBaseContext(), R.anim.snake);
+                        binding.etSearh.startAnimation(snake);
+                        Toast.makeText(this, "Поле не должен быть пустым", Toast.LENGTH_SHORT).show();
+                    } else {
+                        progressBar.setVisibility(View.VISIBLE);
+                        String word = binding.etSearh.getText().toString();
+                        getImageFromApi(word, 1, 20);
+                    }
+                });
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            int count = 1;
+            String word = binding.etSearh.getText().toString();
+            getImageFromApi(word, ++count, 5);
+            binding.swipeRefresh.setRefreshing(false);
         });
     }
 
